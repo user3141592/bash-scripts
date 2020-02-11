@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# DESCRIPTION: Send gpg mail with swaks
+# USAGE: gpg-swaks "<message>" [ [<recipient mail>] [subject] ] 
+# REMARK: postfix, swaks should be installed
+
+# variables to be set
+DEFAULT_MAIL_RECIPIENT=default_recipient@gmail.com
+DEFAULT_SUBJECT="$(date +"%d-%m-%Y,%H:%M:%S")"
+
+SUBJECT=${3:-$DEFAULT_SUBJECT}
+MAIL_RECIPIENT=${2:-$DEFAULT_MAIL_RECIPIENT}
+
+service postfix start
+swaks --header "Subject: $SUBJECT" --body <(echo "$1" | gpg -a -e -r $MAIL_RECIPIENT)  -t $MAIL_RECIPIENT

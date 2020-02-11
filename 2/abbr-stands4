@@ -1,0 +1,25 @@
+#!/bin/bash
+
+# DESCRIPTION: Search for a keyword in the abbreviation STANDS4 database and display definition (1), category (2) and parent category (3) of the found abbreviations in 3 columns
+# REMARK: 
+# * Registration needed at http://www.abbreviations.com/api.php. 
+# * Can be used for other STANDS4 API (conversions,zip codes,synonyms,definitions,phrases,rhymes,quotes,poetry,newgrammar)
+
+# USAGE: stands4-abbr <keyword>
+# EXAMPLE: 
+#
+# # stands4-abbr ABC
+#
+# DEFINITION                                                  CATEGORY NAME                                               PARENT CATEGORY NAME
+# Australian Broadcasting Corporation                         Companies & Firms                                           Business
+# Australian Broadcasting Corporation                         News & Media                                                Community
+# ATP Binding Cassette                                        Physiology                                                  Medical
+# Activity Based Costing                                      Military                                                    Governmental
+# Activity Based Costing                                      US Government                                               Governmental
+# [...]								[...]							   [...]
+
+# VARIABLE TO BE SET 
+USER_ID=4515                                        # sent by mail after registration at http://www.abbreviations.com/api.php
+TOKEN_ID=3sgcgfKGZc6RSCQY					# sent by mail after registration at http://www.abbreviations.com/api.php
+SPACE_SEPARATOR=60
+curl -sL "http://www.stands4.com/services/v2/abbr.php?uid=$USER_ID&tokenid=$TOKEN_ID&term=$@" | sed '1 a\DEFINITION\tCATEGORY NAME\tPARENT CATEGORY NAME' | sed 's/<definition>/\n<definition>/g'| sed '1d;3d'| sed  's#.*<definition>\([^<]*\)</definition>.*<categoryname>\([^<]*\)</categoryname>.*<parentcategoryname>\([^<]*\)</parentcategoryname>.*#\1\t\2\t\3#' | sed 's#&amp;#\&#g' |  expand -t $SPACE_SEPARATOR | less

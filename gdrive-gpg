@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# DESCRIPTION: Upload gpg encrypted files to Google Drive with given recipient
+# USAGE: gdrive-gpg <file1> [<recipient>]
+# REMARK: gdrive-linux-x64 (or other version) can be found at https://github.com/prasmussen/gdrive
+
+# VARIABLE TO BE SET:
+DEFAULT_GPG_RECIPIENT=recipient@mail.com
+
+gpg -e -r ${2:-$DEFAULT_GPG_RECIPIENT} -o - $1 | gdrive-linux-x64 upload - $1.gpg

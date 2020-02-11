@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# USAGE
+#   gpg-recipients <files>
+# DESCRIPTION
+#   list gpg recipient of given file    
+
+
+
+ gpg --list-only --no-default-keyring --secret-keyring /dev/null 
+
+

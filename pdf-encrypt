@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# SYNOPSIS
+#   pdf-encrypt <pdf file>
+# DESCRIPTION
+#   encrypt a pdf file with a prompted password.
+
+echo -n "Enter password: "
+read p
+pdftk $@ output ${@%%pdf}enc.pdf user_pw $p
+p=""
+

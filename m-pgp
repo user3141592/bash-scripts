@@ -1,0 +1,21 @@
+#!/bin/bash
+
+# USAGE: 
+#   gpg-gmail <recipient> <message>
+#
+# DESCRIPTION
+#   Send the given GPG message with swaks with gmail autentication
+#
+# EXAMPLE
+#   gpg-gmail reciever@mail.com This is my message
+#
+# VARIABLES TO BE SET
+    GOOGLE_USER=naim.bougacha                         # e.g jean.repond
+    GOOGLE_PASSWORD=Halogene562919919                 # e.g password1234
+
+TO=$1
+SU="Please delete this mail after reading it"
+BODY="$(echo "${2/\n}" | gpg --local-user -s -a -e -r $TO )
+#| sed 's/$/%0D/g'| sed 's/+/%2B/g')"
+
+swaks -tls -t $1 --add-header "MIME-Version: 1.0" --body <(echo $BODY) -s smtp.gmail.com:587 -tls -a LOGIN -au $GOOGLE_USER -ap $GOOGLE_PASSWORD

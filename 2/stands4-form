@@ -1,0 +1,24 @@
+#!/usr/bin/env python
+
+# DESCRIPTION: Automatically fill the form of all STANDS4 APIs to recieve token. Example of form: http://www.poetry.net/api.php
+# USAGE: stands4-form <name> <email> <message>
+# EXAMPLE: stands4-form Jean jean@mail.com "Private use only" 
+# REMARK: requires python-mechanize: `pip install mechanize`
+
+import re
+import mechanize
+import sys
+
+#for i in http://www.abbreviations.com/abbr_api.php http://www.convert.net/conv_api.php http://www.uszip.com/zip_api.php http://www.synonyms.net/synonyms_api.php http://www.definitions.net/definitions_api.php http://www.phrases.net/phrases_api.php http://www.rhymes.net/rhymes_api.php http://www.quotes.net/quotes_api.php http://www.poetry.net/poetry_api.php http://www.grammar.com/grammar_api.php:
+for i in ['http://www.convert.net/conv_api.php']:
+	browser=mechanize.Browser()
+	browser.open(i)
+	browser.addheaders = [('User-agent', 'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.0.1) Gecko/2008071615 Fedora/3.0.1-1.fc9 Firefox/3.0.1')]
+	browser.set_handle_robots(False)
+	browser.set_handle_equiv(False) 
+	browser.select_form(name='api-frm')
+	browser['fld-rname']=" ".join(sys.argv[1])
+	browser['fld-auemail'] = sys.argv[2]
+	browser.form['fld-pdesc'] = " ".join(sys.argv[3:])
+	browser.submit()
+done

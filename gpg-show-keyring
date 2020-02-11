@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# USAGE 
+#   gpg-show-keyring <KEYID>
+# 
+# DESCRIPTION
+#   show the keyring of the given key <KEYID>
+#
+
+gpg --list-options show-keyring --list-key $@

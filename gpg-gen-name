@@ -1,0 +1,27 @@
+#!/bin/bash
+
+# DESCRIPTION: ad-hoc non-interactive GPG key generation with haveged
+# USAGE: gpg-gen
+
+service haveged start 				# GENERATE ENTROPY FOR FAST KEY GENERATION
+
+echo -n "NAME: "
+read  NAME
+echo -n "MAIL: "
+read  MAIL
+echo -n "PASSPHRASE: "
+read  -s PASSPHRASE
+
+gpg2 --batch --generate-key <(echo "%echo Generating a basic OpenPGP key
+     Key-Type: rsa
+     Key-Length: 4096
+     Subkey-Type: rsa
+     Subkey-Length: 4096
+     Name-Real: $NAME
+     Name-Email: $MAIL
+     Expire-Date: 1w
+     Passphrase: $PASSPHRASE
+     %commit
+     %echo done")
+
+PASSPHRASE=""

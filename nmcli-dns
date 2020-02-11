@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# DESCRIPTION: display DNS related variables of active NetworkManager connections
+# USAGE: nmcli-dns
+
+nmcli  -c no -t -f name co  show --active  | while read i
+do
+echo "########################## $i ##############################"
+nmcli co show $i | grep -i dns
+done

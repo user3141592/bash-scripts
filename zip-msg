@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# DESCRIPTION: create a password protected zip containing the given message 
+# USAGE: zip-msg <message>
+
+# variables to be set
+FILE=/tmp/message-$(date +"%d-%m-%Y,%H:%M:%S").zip
+
+rm  $FILE 2>/dev/null
+zip --verbose --encrypt $FILE -j -FI <(echo "$@")

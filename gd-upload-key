@@ -1,0 +1,22 @@
+#!/bin/bash
+
+# DESCRIPTION: upload key to gdrive. Key is either given as argument or chosen interactively.
+# USAGE: gpg-upload-key [<key ID/email>]
+# REMARK: gdrive-linux-x64 (or other version) can be found at https://github.com/prasmussen/gdrive
+
+# VARIABLE TO BE SET
+OPTION="-p 1xL_oNyy_xw97BrAGYh3CRbQqrBQlCOG5"						# to be set to "-p <folder ID>" to upload to given folder
+
+
+if [ -z $@  ]
+then
+echo " "
+gpg --list-key | grep '<..*>' | sed 's/.*<\(.*\)>.*/\1/' | nl  | sed 's/^/\t/'
+echo -n "
+Number: "
+read NUMBER
+MAIL=$(gpg --list-key | grep '<..*>' | sed 's/.*<\(.*\)>.*/\1/' | sed -n "${NUMBER}p")
+else
+MAIL=$@
+fi
+gpg -a --export  $MAIL | gd upload  - ${MAIL}-pubkey.asc $OPTION 

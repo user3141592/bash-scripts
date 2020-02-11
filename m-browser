@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# USAGE
+#    m <recipient> "<message>" [<subject>]
+# DESCRIPTION:
+#   Open a new default browser window with a gmail message with the given recipient, message and subject
+
+TO=$1
+SU=${3:-$(date-all)}
+MSG="${@:-2}"
+BODY=$(echo "${MSG//$'\n'/%0D}"%0D | sed 's/\+/%2B/g')
+
+c "https://mail.google.com/mail/?view=cm&fs=1&to=$TO&su=$SU&body=$BODY"

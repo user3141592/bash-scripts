@@ -1,0 +1,8 @@
+#!/bin/bash
+
+# DESCRIPTION: Chose interactively the reciever, prompt for a message and copy the encrypted version in clipboard
+# USAGE:
+
+C=$(tempfile)
+gpg -a --export "$@"  > $C
+echo "Public key exported at $C"

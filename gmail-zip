@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# DESCRIPTION: Send mail with an attached password protected zip containing the given message 
+# USAGE: swaks-zip <recipient> <message>
+# REMARK: postfix, swaks and zip should be installed
+
+# variables to be set
+SUBJECT="$(date +"%d-%m-%Y,%H:%M:%S")"
+
+RECIPIENT=$1
+
+rm  /tmp/message.zip 2>/dev/null
+zip --encrypt /tmp/message.zip -FI <(echo "${@:- 2}")
+
+service postfix start
+swaks --header "Subject: $SUBJECT" --attach /tmp/message.zip  -t $RECIPIENT

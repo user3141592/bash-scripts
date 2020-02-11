@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# DESCRIPTION: Send gpg mail with swaks
+# USAGE: gpg-swaks "<message>" [ [<recipient mail>] [subject] ] 
+# REMARK: postfix, swaks should be installed
+
+# variables to be set
+SUBJECT="$(date +"%d-%m-%Y,%H:%M:%S")"
+MAIL_SENDER=naim.bougacha@epfl.ch
+MAIL_RECIPIENT=malik.bougacha@epfl.ch
+
+echo "$1" | gpg -a -e -r $MAIL_RECIPIENT

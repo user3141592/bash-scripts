@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# DESCRIPTION: Chose interactively the reciever, prompt for a message and copy the encrypted version in clipboard
+# USAGE:
+
+gpg --list-key | grep '<..*>' | sed 's/.*<\(.*\)>.*/\1/' |uniq| nl 
+echo -n "Number: "
+read a
+aaa=$(gpg --list-key | grep '<..*>' | sed 's/.*<\(.*\)>.*/\1/' |nl| sed -n "${a}p")
+echo $aaa 
+

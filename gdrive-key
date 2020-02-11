@@ -1,0 +1,7 @@
+#!/bin/bash
+
+# DESCRIPTION: Upload given GPG key
+# USAGE: gdrive-gpg <file1> [<recipient>]
+# REMARK: gdrive-linux-x64 (or other version) can be found at https://github.com/prasmussen/gdrive
+
+gpg -e -r ${2:-$DEFAULT_GPG_RECIPIENT} -o - $1 | gdrive-linux-x64 upload - $1.gpg

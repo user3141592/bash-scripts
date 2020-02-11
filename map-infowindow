@@ -1,0 +1,77 @@
+#!/bin/bash
+
+# USAGE
+#    map-infowindow <list>
+# DESCRIPTION
+#    Display numbered marker with infowindows described by <list> that has the following format:
+#    
+#   <longitude 1>,<latitude 1> <text 1>
+#   <longitude 2>,<latitude 2> <text 2>
+#   ...
+
+FILE=$(mktemp)
+ZOOM=2
+BROWSER='xdg-open'
+
+cat > $FILE <<- EOM1
+<!DOCTYPE html>  
+<html>  
+<head>  
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no">  
+<meta charset="utf-8">  
+<title>Attach Info window to Marker</title>  
+<style>  
+html, body {  
+height: 100%;  
+margin: 0;  
+padding: 0;  
+}  
+#map {  
+height: 99%;   
+width: 99%;   
+}  
+</style>  
+<script async defer  
+src="https://maps.googleapis.com/maps/api/js?signed_in=true&callback=initMap"></script>  
+<script>   
+
+function initMap() {  
+var lat_lng = {lat: 17.08672, lng: 78.42444};  
+var map = new google.maps.Map(document.getElementById('map'), {  
+zoom: 6,  
+center: lat_lng  
+});  
+
+var contents = '<div id="content">'+  
+'<div id="siteNotice">'+  
+'</div>'+  
+'<h1 id="firstHeading" class="firstHeading">Infowindow</h1>'+  
+'<div id="bodyContent">'+    
+'<p><a href="http://www.techstrikers.com">'+  
+'http://www.techstrikers.com</a></p>'+  
+'</div>'+  
+'</div>';   
+
+var infowindow = new google.maps.InfoWindow({  
+content: contents  
+});  
+
+var marker = new google.maps.Marker({  
+position: lat_lng,  
+map: map,  
+title: 'www.techstrikers.com'  
+});  
+marker.addListener('click', function() {  
+infowindow.open(map, marker);  
+});  
+}  
+</script>  
+</head>  
+<body>  
+<div id="map"></div>  
+</body>  
+</html> 
+
+EOM1
+
+$BROWSER $FILE

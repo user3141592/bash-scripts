@@ -1,0 +1,22 @@
+#!/bin/bash
+
+# USAGE
+#	gmail-unknown firstname.lastname "<message>"
+# DESCRIPTION
+#	Open a new gmail messages with the following BCC recipient in order to guess the mail of a person:
+#
+#		firstname[.]lastname@{outlook.com,gmail.com,hotmail.com,,inbox.com,icloud.com,aol.com,zoho.com,yandex.com,mail.com,protonmail.com,gmx.com,bluewin.ch,hushmail.com,lycos.com}
+#
+# EXAMPLE
+# 	gmail-unknown jean.repond "Hi Jean. Can we arrange a meeting this week. Thank you in advance?"
+# VARIABLES TO BE SET
+	SUBJECT="Contact"
+	
+MSG=${@: 2}
+BODY="${MSG//$'\n'/%0D}"%0D
+BCC=$(for i in outlook.com gmail.com hotmail.com  inbox.com icloud.com aol.com zoho.com yandex.com mail.com protonmail.com gmx.com bluewin.ch hushmail.com lycos.com 
+do
+echo ${1}@$i
+echo ${1//.}@$i
+done | tr -t '\n' ',')
+c  "https://mail.google.com/mail/?view=cm&bcc=$BCC&su=$SUBJECT&body=$BODY"

@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# USAGE
+#	genisoimage-encrypted <files> [<device>]
+#
+# DESCRIPTION
+#	Burn a DVD with an encrypted ISO containing the given files 
+#
+# REMARKS
+#	 * requires 'aespipe` and `loop-aes-utils`
+#	 * use `mount -o loop,encryption=aes256 /dev/sr0 /mnt` to mount the encrypted DVD
+
+sudo modprobe cryptoloop
+FILE=$(mktemp).iso
+genisoimage -quiet -r  $1 | aespipe -T -e aes256 > $FILE
+echo "ISO generated at $FILE"
+# wodim -eject -tao  speed=2 dev=${1:-/dev/sr0} -v -data $FILE
+

@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# USAGE
+#       rand-name-male 
+# DESCRIPTION
+#       display random common male names from `random-name-generator.info` and put the first one in clipboard
+#       
+# VARIABLES TO BE SET
+    NUMBER_OF_NAMES=10
+
+wget -q "http://random-name-generator.info/random/?n=$NUMBER_OF_NAMES&g=2&st=1" -O - | sed -n '/nameList/,/ol/p'  | sed '/<[\/]*ol/d;s/[ \t]*<li>[ \t]*//;s/[ \t]*<\/li>[ \t]*//'  | sed 's/^[ \t]//' | sed 's/\t//g' | sed 1d | tee >( sed -n 1p |  xclip -selection clipboard )

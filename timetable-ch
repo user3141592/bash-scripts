@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# DESCRIPTION: Open default browser with the given SBB-CFF-FFS timetable. Use current date and time if they are not given as argument.
+# USAGE: cff <from> <to> [<HH:MM>] [<MM.DD.YY>]
+
+nohup sensible-browser "http://fahrplan.sbb.ch/bin/query.exe/en?S=$1&Z=$2&T=${3:-$(date +%R)}&D=${4:-$(date +%d.%m.%Y)}&start=1" >/dev/null 2>1 &

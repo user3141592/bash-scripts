@@ -1,0 +1,8 @@
+#!/bin/bash
+
+# USAGE: rpi-kali-curl [<sdcard device>] 
+# DESCRIPTION: Burn Kali on a SDCard for a Rapsberry Pi 3 
+
+umount /dev/mmcblk0p1
+umount /dev/mmcblk0p2
+curl -s -L "https://images.offensive-security.com/arm-images/kali-2.1.2-rpi2.img.xz" | xzcat | dd of=${@:-/dev/mmcblk0} status=progress bs=512k 

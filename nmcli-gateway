@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# USAGE
+#   nmcli gateway
+# DESCRIPTION
+#   show information of NetworkManager on the gateway of the current active connections
+
+nmcli  -c no -t -f name co  show --active | while read i
+do
+echo "########### $i ###############"
+    nmcli co show $i | grep -i "gateway:"
+    done
+

@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# DESCRIPTION: Send gpg mail with swaks with TLS
+# USAGE: gpg-swaks <recipient mail> "<message>" 
+# REMARK: postfix, swaks should be installed
+
+
+# variables to be set
+SUBJECT="$(date +"%d-%m-%Y,%H:%M:%S")"
+
+MAIL_RECIPIENT=$1
+
+service postfix start
+swaks -tls --header "Subject: $SUBJECT" --body <(echo "${@:2}" | gpg -a -e -r $MAIL_RECIPIENT)  -t $MAIL_RECIPIENT  -f naim.bougacha@epfl.ch

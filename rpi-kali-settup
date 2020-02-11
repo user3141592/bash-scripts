@@ -1,0 +1,51 @@
+#!/bin/bash
+
+# USAGE: rpi-kali-curl [<sdcard device>] 
+# DESCRIPTION: Burn Kali on a SDCard for a Rapsberry Pi 3 
+# VARIABLE TO BE SET
+	MOUNTPOINT=/mnt/mmcblk0p2
+	SDCARD_PATH=/dev/mmcblk0p2
+ 
+
+# MOUNT CARD
+umount $SDCARD_PATH
+mkdir $MOUNTPOINT
+mount $SDCARD_PATH $MOUNTPOINT
+
+echo 'zsh' > $MOUNTPOINT/root/.bashrc
+cp /root/.zshrc $MOUNTPOINT/root/
+
+for i  in {1..6}
+do
+ln -vs $MOINTPOINT/etc/init.d/ssh  $MOUNTPOINT/etc/rc$i.d/K12ssh
+done
+
+#rm $0
+
+#' > $MOUNTPOINT/etc/profile.d/startup.sh
+# chmod a+rwx $MOUNTPOINT/etc/profile.d/startup.sh
+
+
+
+echo "allow-hotplug wlan0
+iface wlan0 inet dhcp
+wpa-conf /etc/wpa_supplicant/wpa_supplicant.conf
+iface default inet dhcp" >>  $MOUNTPOINT/etc/network/interfaces
+echo -n "SSID: "
+read a
+echo -n "PSK: "
+read b
+echo "network={
+ssid=\"$a\"
+key_mgmt=WPA-PSK
+psk=\"avpuf237\"
+}" > $MOUNTPOINT/etc/wpa_supplicant/wpa_supplicant.conf
+
+
+
+
+
+
+
+
+#umount $MOUNTPOINT

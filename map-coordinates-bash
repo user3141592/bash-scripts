@@ -1,0 +1,61 @@
+#!/bin/bash
+
+# USAGE
+#    map-coordinates <lat1>,<long1> [<lat2>,<long2>] [...]
+# DESCRIPTION
+#    Put numbered marker at given coordinates on Google Map
+
+FILE=$(mktemp)
+ZOOM=2
+BROWSER='xdg-open'
+
+
+cat > $FILE <<- EOM1
+<html>
+<head>
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+<meta charset="utf-8">
+<script src="http://maps.google.com/maps/api/js?key=AIzaSyD8O_AHvbfS0TsYL8v7WCjteWQ572dTgBc" type="text/javascript"></script>
+</head>
+<div id="map_div" style="height: 100%; width: 100%;"><body>
+<script type="text/javascript">
+var locations = [
+EOM1
+
+for COORDINATES in $@ 
+do
+echo "[ $COORDINATES ] ," >> $FILE
+done
+cat >> $FILE <<- EOM2
+];
+
+var map = new google.maps.Map(document.getElementById('map_div'), {center: new google.maps.LatLng(0,0),
+center: new google.maps.LatLng(0,0) , 
+zoom: $ZOOM, 
+mapTypeId: google.maps.MapTypeId.HYBRID
+});
+var markerBounds = new google.maps.LatLngBounds();
+var infowindow = new google.maps.InfoWindow();
+
+var marker, i;
+
+for (i = 0; i < locations.length; i++){
+marker = new google.maps.Marker({
+label: { text: (i+1).toString() },
+position: new google.maps.LatLng(locations[i][0], locations[i][1]),
+map: map,
+});
+
+google.maps.event.addListener(marker, "click", (function(marker, i){
+return function() {
+infowindow.setContent(locations[i][0]);
+markerBounds.extend(locations);
+infowindow.open(map, marker);
+}
+})(marker, i));
+}
+</script>
+</div></body></html>
+EOM2
+
+$BROWSER $FILE

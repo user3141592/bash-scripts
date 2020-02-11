@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# DESCRIPTION: Open gmail with a given GPG message
+# USAGE: gpg-gmail <recipient> "<message>"
+
+TO=$1
+SU=$(date +"%d-%m-%Y,%H:%M:%S")
+BODY=$(echo ${@: 2}  | gpg --local-user -s -a -e -r $TO | sed 's/$/%0D/g'| sed 's/+/%2B/g')
+
+c "https://mail.google.com/mail/?view=cm&fs=1&to=$TO&su=$SU&body=$BODY"

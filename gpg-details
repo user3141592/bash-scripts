@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# USAGE
+#   gpg-details <key ID/recipient>
+# DESCRIPTION
+#   show details of a given GPG key
+
+gpg --export-secret-keys $@ | gpg --list-packets
+

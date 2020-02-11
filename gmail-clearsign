@@ -1,0 +1,45 @@
+#!/bin/bash
+
+# USAGE
+#	    gmail-clearsign <recipient> "<message>"
+# DESCRIPTION
+#	    Open a default browser window with a new mail composed of the message
+#	    <message> with signature
+# EXAMPLE
+#    	gmail-clearsign jean.repond@gmail.com "Message with signature"
+#
+#-----BEGIN PGP SIGNED MESSAGE-----
+#Hash: SHA256
+
+# Message with signature
+#-----BEGIN PGP SIGNATURE-----
+
+#iQIzBAEBCAAdFiEEG8UKkBYXmPWm1T1zl2q9c4YIQAsFAljlGMIACgkQl2q9c4YI
+#QAuLIA/5AfiLNVappobj46WqJodFaIaoUzyQVpRRr1ZUdvCDb/NDMNzdvreNzWD1
+#/BKcOYONlRjPQugtedABOGvvEN9BrC2iOlXrpP1lL8oWCnsmHBlHvAVrdBDJGetA
+#9SPLYF7lwT+qM+lIfLowlvatfqksm6D3gRam3UZr3ctd1L+LuCxGo4paCrRoCf4A
+#t31MDThuDke3B3rQe3bQdKxaV66iuGwogp+ATNQcNC100yNhtFIdhyVvQxKmnTrE
+#a6fjB+nmotDHnZESFbG/DQ4o7ahUYyWmmwWPx9E6dUllzzc9Omxi9yCS10TFZ8ML
+#GohfJeSafK1VGUNiqEGvi9VnlRSqZNyP1UW83nRKpmFNXduGJ+urOteDDsbhH/xv
+#8MQ/c7KON2a8+RGqB94LB0OJS8KAKp0uf/HDJZzQWTk7/NXp0w8zqpKRzftFAEFn
+#vQ/4jrJ9OVvCbW7r3KvoLa98mv8b+l82/m8sukiqnvgXif9OmDfrJlNQJk0YFg1I
+#P1QoKQubCaUgZ4NpTDI5MnwEWxv5TX1qkywmWKEPCLXzNTU2pK1ZwU/eTRrsMMNM
+#oH/t3fLseClTpRRJmW1hUBEm9DNEBmOr+UxIB3UejjIM/gDtwRKmDGkp6hUo2Zmw
+#mTL/UCUAzvGY9e+3bI5r6hCFuYgYheALabNj/EoroJuEXoMKRr0=
+#=Vg0v
+#-----END PGP SIGNATURE-----
+
+# VARIABLES TO BE SET
+      LOCAL_USER=$GPG_RECIPIENT
+      SUBJECT=$(date-all)
+
+TO=$1
+MSG="$(echo "${@: 2}"  | gpg -a --local-user $LOCAL_USER --clearsign)"
+BODY="$(echo "${MSG//$'\n'/%0D}"%0D | sed 's/\+/%2B/g' | sed 's/ /+/g')"
+
+
+
+
+
+nohup sensible-browser "https://mail.google.com/mail/?view=cm&fs=1&to=$TO&su=$SUBJECT&body=$BODY" >/dev/null 2>1 &
+

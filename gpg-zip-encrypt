@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# USAGE:
+#    gpg-zip-encrypt <directory> [<GPG recipient/ID>]
+#
+# DESCRIPTION:
+#   create an encrypted archive called <directory>.tar.gpg of the given directory <directory>
+#
+# VARIABLES TO BE SET
+    DEFAULT_RECIPIENT=
+#
+
+gpg-zip --encrypt --output ${1}.tar.gpg --gpg-args  "-r ${2:-$DEFAULT_RECIPIENT}" $1
+

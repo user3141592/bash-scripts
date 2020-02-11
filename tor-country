@@ -1,0 +1,203 @@
+#!/bin/bash
+
+# DESCRIPTION
+#   Change the exit node country. The list is sorted with the number of exit nodes per country as of 02.2017
+
+echo 'NUMBER OF EXIT NODES                           COUNTRY
+1495 Germany;de
+1257 United States;us
+952 France;fr
+544 Netherlands;nl
+373 Russian Federation;ru
+318 Canada;ca
+255 United Kingdom;gb
+213 Sweden;se
+185 Switzerland;ch
+104 Romania;ro
+99 Ukraine;ua
+97 Italy;it
+94 Czech Republic;cz
+80 Austria;at
+78 Japan;jp
+75 Finland;fi
+73 Singapore;sg
+63 Denmark;dk
+56 Australia;au
+54 Bulgaria;bg
+53 Norway;no
+52 Tonga;to
+52 Hungary;hu
+51 Poland;pl
+51 Moldova, Republic of;md
+48 Spain;es
+45 India;in
+43 Latvia;lv
+35 Lithuania;lt
+35 Ireland;ie
+33 Belgium;be
+29 Iceland;is
+28 Brazil;br
+25 Israel;il
+23 Slovakia;sk
+22 Greece;gr
+20 Luxembourg;lu
+19 Hong Kong;hk
+18 Seychelles;sc
+17 Portugal;pt
+16 Taiwan, Province of China;tw
+16 Malaysia;my
+15 New Zealand;nz
+14 Viet Nam;vn
+14 Indonesia;id
+13 South Africa;za
+13 Turkey;tr
+133 Estonia;ee
+13 Argentina;ar
+12 Slovenia;si
+122 11, 11, 10, 10, Bahamas;bs
+9 Panama;pa
+9 Saint Kitts and Nevis;kn
+9 British Indian Ocean Territory;io
+9 Armenia;am
+8 Dominican Republic;do
+8 Costa Rica;cr
+7 Sao Tome and Principe;st
+7 Lao People s Democratic Republic;la
+7 Korea, Republic of;kr
+7 Albania;al
+6 Croatia;hr
+5 Thailand;th
+5 Niger;ne
+5 Morocco;ma
+5 Gabon;ga
+5 Egypt;eg
+5 Bouvet Island;bv
+4 San Marino;sm
+4 Peru;pe
+4 Mexico;mx
+4 Iran, Islamic Republic of;ir
+4 Bosnia and Herzegovina;ba
+4 Afghanistan;af
+4 Andorra;ad
+3 Uruguay;uy
+3 United States Minor Outlying Islands;um
+3 Trinidad and Tobago;tt
+3 Suriname;sr
+3 Serbia;rs
+3 Pitcairn;pn
+3 Nicaragua;ni
+3 Norfolk Island;nf
+3 Kiribati;ki
+3 Cambodia;kh
+3 Kenya;ke
+3 Isle of Man;im
+3 Guatemala;gt
+3 Gambia;gm
+3 Guernsey;gg
+3 Faroe Islands;fo
+3 Cuba;cu
+3 Colombia;co
+3 Chile;cl
+3 Bhutan;bt
+3 Bolivia, Plurinational State of;bo
+3 Bahrain;bh
+3 Barbados;bb
+3 Samoa;ws
+2 Holy See ,Vatican City State (;a)
+2 Uganda;ug
+2 Tuvalu;tv
+2 Tunisia;tn
+2 Sint Maarten ,Dutch part (;x)
+2 Saint Helena, Ascension and Tristan da Cunha;sh
+2 Réunion;re
+2 Palestine, State of;ps
+2 New Caledonia;nc
+2 Macao;mo
+2 Mongolia;mn
+2 Mali;ml
+2 Montenegro;me
+2 Monaco;mc
+2 Lebanon;lb
+2 Korea, Democratic People s Republic of;kp
+2 Kyrgyzstan;kg
+2 Haiti;ht
+2 Heard Island and McDonald Islands;hm
+2 Guadeloupe;gp
+2 Guinea;gn
+2 Greenland;gl
+2 Ethiopia;et
+2 China;cn
+2 Cook Islands;ck
+2 Côte d Ivoire;ci
+2 Congo, the Democratic Republic of the;cd
+2 Bermuda;bm
+2 Burundi;bi
+2 Angola;ao
+2 Zimbabwe;zw
+1 Yemen;ye
+1 Wallis and Futuna;wf
+1 Vanuatu;vu
+1 Virgin Islands, U.S.;vi
+1 Venezuela, Bolivarian Republic of;ve
+1 Uzbekistan;uz
+1 Turkmenistan;tm
+1 Timor-Leste;tl
+1 Tokelau;tk
+1 Togo;tg
+1 French Southern Territories;tf
+1 Chad;td
+1 El Salvador;sv
+1 Somalia;so
+1 Senegal;sn
+1 Sierra Leone;sl
+1 Svalbard and Jan Mayen;sj
+1 Saudi Arabia;sa
+1 Rwanda;rw
+1 Paraguay;py
+1 Palau;pw
+1 Puerto Rico;pr
+1 Pakistan;pk
+1 Philippines;ph
+1 Papua New Guinea;pg
+1 Oman;om
+1 Nauru;nr
+1 Nepal;np
+1 Nigeria;ng
+1 Namibia;na
+1 Mauritius;mu
+1 Mauritania;mr
+1 Martinique;mq
+1 Macedonia, the Former Yugoslav Republic of;mk
+1 Madagascar;mg
+1 Libya;ly
+1 Lesotho;ls
+1 Liberia;lr
+1 Liechtenstein;li
+1 Saint Lucia;lc
+1 Cayman Islands;ky
+1 Jamaica;jm
+1 Iraq;iq
+1 Honduras;hn
+1 South Georgia and the South Sandwich Islands;gs
+1 Ghana;gh
+1 Georgia;ge
+1 Eritrea;er
+1 Western Sahara;eh
+1 Cyprus;cy
+1 Cameroon;cm
+1 Congo;cg
+1 Belize;bz
+1 Belarus;by
+1 Botswana;bw
+1 Saint Barthélemy;bl
+1 Anguilla;ai
+1 Antigua and Barbuda;ag
+1 United Arab Emirates;ae' | less
+#sed 's/;/\t\t\t\t\t/g'  
+
+
+sed -i '/ExitNodes/d'  /etc/tor/torrc
+echo -n "Enter country: "
+read a
+echo "ExitNodes {$a}" >> /etc/tor/torrc
+tor-restart

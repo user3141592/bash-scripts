@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# DESCRIPTION: show active NetworkManager connections
+# USAGE: nmcli-active
+
+nmcli  -c no -t -f name co  show --active 

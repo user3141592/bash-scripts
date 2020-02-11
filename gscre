@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# USAGE: 
+# 	gsc-gpg [<filename>] [<GPG ID/recipient>]
+# EXAMPLE_
+#	gpc-gpg capture.png.gpg BCDE2BA23F3B9CDF80137BC97C2327C363E1778B
+# DESCRIPTION
+#	Trigger an interactive rectangular screen capture, put it in cliboard and save the output in a GPG encrypted file 
+# VARIABLES TO BE SET
+ 	FILENAME=${1:-/tmp/screenshot-$(date +%d-%m-%Y_%H-%M-%S).png.gpg}
+	DEFAULT_RECIPIENT=747D04B5DB0B5880B0C2036527ED6AFCE6C09A5A
+
+
+RECIPIENT=${2:-$DEFAULT_RECIPIENT}
+gnome-screenshot -c -a -f >(gpg -e -r $RECIPIENT --output $FILENAME)
+echo "Screenshot saved at $FILENAME"

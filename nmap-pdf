@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# SYNOPSIS: nmap-pdf [nmap options] [target(s)]
+# DESCRIPTION: Generate and display a pdf report of an nmap scan
+# EXAMPLE: nmap-pdf -F google.com
+
+TMPFILE=$(mktemp)
+nmap -oX $TMPFILE $@
+xsltproc $TMPFILE | wkhtmltopdf - nmap-${@: -1}.pdf
+nohup evince nmap-${@: -1}.pdf 2>1 >/dev/null &

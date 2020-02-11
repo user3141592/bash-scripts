@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# DESCRIPTION: mount a MPT device (e.g Android) on a given mountpoint (default /mnt) from terminal
+# USAGE: mount-mpt [<mount point>]
+# REMARK: apt-get install -y jmtpfs mtp-tools
+
+mtp-detect
+jmtpfs ${@:-/mnt}
+echo "################### jmtpfs -l  #############################"
+jmtpfs -l 

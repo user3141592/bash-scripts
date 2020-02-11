@@ -1,0 +1,7 @@
+#!/bin/bash
+
+# DESCRIPTION: Import a *.ovpn file to create a NetworkManager VPN connection and connect to it
+# USAGE: nmcli-vpn <ovpn file>
+
+nmcli con import type openvpn file $@
+nmcli -p con up id  $(basename ${@%%.conf})

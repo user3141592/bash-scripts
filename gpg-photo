@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# USAGE
+#   gpg-photo [KEYID1] [KEYID2] [...]
+#
+# DESCRIPTION
+#   Show photo of the given PGP key(s)
+#
+# REMARKS
+#   * Requires `xloadimage` to be installed
+#   * No arguments show all photos of any key
+
+for KEYID in $@
+    do
+        gpg --list-options show-photos --list-key $KEYID
+    done
